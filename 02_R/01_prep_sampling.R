@@ -1,6 +1,6 @@
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 #
-# Link survey data to forest database, compute distance to all sites, 
+# Link survey data to forest database, compute distances to all sites, 
 # and apply stratified importance sampling by disatnce to full choice set
 #
 # Oliver Becker (oliver@pksb.de)
@@ -76,10 +76,10 @@ for (i in 1:nrow(df)) {
     next
   }
   
-  # distance from home to all patches
+  # Distances between residency and all patches
   dist_km <- as.numeric(st_distance(home_i, fp)) / 1000
   
-  # respondent-specific full choice data
+  # Full choice data for respondent rid_i
   df_i <- fp %>%
     st_drop_geometry() %>%
     mutate(
@@ -90,10 +90,10 @@ for (i in 1:nrow(df)) {
     ) %>%
     select(rid, sf_id, choice, distance_km, dist_bin, everything())
   
-  # chosen stratum
+  # Chosen stratum
   i_str <- as.character(df_i$dist_bin[df_i$choice == 1])
   
-  # stratum sizes and target draws
+  # Stratum sizes and target draws
   J_rn <- table(df_i$dist_bin) # number of available sites per stratum
   Jtilde <- pmin(Jtilde_target[names(J_rn)], as.numeric(J_rn)) # cut target by availability
   names(Jtilde) <- names(J_rn) # rename necessary if one bin not available
@@ -140,8 +140,8 @@ for (i in 1:nrow(df)) {
 # 4) Bind output ----------------------------------------------------------
 
 choice_sampled <- bind_rows(sampled_list)
-failed_rid <- tibble(rid = failed_rid)
+failed_rid <- tibble(rid = failed_rid)    # 679 fails -> 31.7% (at 50m)
 
-write_csv(choice_sampled, "01_Data/choice_sampled_dist_stratified.csv")
-write_csv(failed_rid, "01_Data/failed_choice_matches.csv")
+write_csv(choice_sampled, "01_Data/choice_sampled_dist_stratified_Apr16.csv")
+write_csv(failed_rid, "01_Data/failed_choice_matches_Apr16.csv")
 
