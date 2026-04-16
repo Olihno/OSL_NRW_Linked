@@ -5,7 +5,7 @@ This project develops a linked model of forest recreation demand in North Rhine-
 ## Structure
 
 - `01_Data/` → input data (not included)
-- `02_R/` → R scripts (`01_prep_sampling.R` → data preparation and sampling, ...)
+- `02_R/` → R scripts (`01_prep_sampling.R` → data preparation and sampling, `02_exploratory_MNLs.R`, ...)
 
 ## Data
 
