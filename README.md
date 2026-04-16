@@ -1,0 +1,25 @@
+# Forest Recreation Demand (NRW)
+
+This project develops a linked model of forest recreation demand in North Rhine-Westphalia.
+
+## Structure
+
+- `01_Data/` → input data (not included)
+- `02_R/` → R scripts (data prep, sampling, estimation)
+
+## Data
+
+To run the code, place the following files in `01_Data/`:
+
+- `fp_nrw_new.geojson` (forest database)
+- `Coordinates_visit_residence_NRW_forest_march26.csv` (respondent data)
+
+## Notes
+
+- The full choice set is very large (~15,000 sites), so we use stratified sampling by distance.
+- Chosen sites are identified if site marker from online mapping tool falls inside forest polygon or if distance to nearest forest is less than 50 m.
+- Observations for which the chosen site cannot be identified are stored in `failed_choice_matches_Apr16.csv` and dropped automatically.
+
+## Usage
+
+Run the scripts in `02_R/` — they build the choice data and apply sampling.
