@@ -5,7 +5,7 @@ This project develops a linked model of forest recreation demand in North Rhine-
 ## Structure
 
 - `01_Data/` → input data (not included)
-- `02_R/` → R scripts (data prep, sampling, estimation)
+- `02_R/` → R scripts (`01_prep_sampling.R` -> data preparation and sampling, ...)
 
 ## Data
 
@@ -16,7 +16,7 @@ To run the code, place the following files in `01_Data/`:
 
 ## Notes
 
-- The full choice set is very large (~15,000 sites), so we use stratified sampling by distance.
+- The full choice set is very large (~15,000 sites), so we use stratified importance sampling (Ben-Akiva and Lerman, 1985) by distance.
 - Chosen sites are identified if site marker from online mapping tool falls inside forest polygon or if distance to nearest forest is less than 50 m.
 - Observations for which the chosen site cannot be identified are stored in `failed_choice_matches_Apr16.csv` and dropped automatically.
 
