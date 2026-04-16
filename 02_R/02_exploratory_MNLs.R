@@ -27,33 +27,36 @@ choice_sampled <- choice_sampled %>%
 # Some log-transforms
 choice_sampled <- choice_sampled %>%
   mutate(
-    log_distance = log(distance_km + 1),
     log_area     = log(area_ha + 1),
     log_parking  = log(parking_count + 1)
   )
 
 # Select explantory variables
-vars <- c("log_distance", "log_area", "log_parking", "mean_canopy", "water_near_lar", 
+vars <- c("distance_km", "log_area", "log_parking", "mean_canopy", "water_near_lar", 
           "broadleaf_share")
 
 
-# 3) Estimate MNL -------------------------------------------------------
+# 3) Estimate MNL with sampling correction --------------------------------
 
 # Load custom MNL package from GitHub
 if (!requireNamespace("mnltools", quietly = TRUE)) remotes::install_github("Olihno/mnltools")
 library(mnltools) # ls("package:mnltools"); ?mnl_fit; ?mnl_full
 
+# Starting values
+start_vals <- rep(0, length(vars))
+
+# Set starting values for sampling correction (SC) term at 1
+fixed_idx <- which("SC"==vars)
+start_vals[fixed_idx] <- 1
+
+# Estimate MNL
 model <- mnl_full(
   Data = choice_sampled,
   X    = vars,
   choiceVar = "choice",
   idVar     = "rid",
-  starting.values = rep(0, length(vars))
+  starting.values = start_vals
 )
 output_formatted <- summary(model); rownames(output_formatted$estimate) <- vars 
 output_formatted
 
-choice_sampled %>%
-  group_by(rid) %>%
-  summarise(n_choice = sum(choice)) %>%
-  filter(n_choice != 1)
