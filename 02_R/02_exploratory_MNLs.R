@@ -33,7 +33,7 @@ choice_sampled <- choice_sampled %>%
 
 # Select explantory variables
 vars <- c("distance_km", "log_area", "log_parking", "mean_canopy", "water_near_lar", 
-          "broadleaf_share")
+          "broadleaf_share", "SC")
 
 
 # 3) Estimate MNL with sampling correction --------------------------------
@@ -55,7 +55,8 @@ model <- mnl_full(
   X    = vars,
   choiceVar = "choice",
   idVar     = "rid",
-  starting.values = start_vals
+  starting.values = start_vals,
+  fixed = fixed_idx
 )
 output_formatted <- summary(model); rownames(output_formatted$estimate) <- vars 
 output_formatted
