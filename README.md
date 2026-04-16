@@ -9,7 +9,7 @@ This project develops a linked model of forest recreation demand in North Rhine-
 
 ## Data
 
-To run the code, place the following files in `01_Data/`:
+To run the code, place the following files in `01_Data/` (this folder is not included in the repository due to file size and data privacy considerations):
 
 - `fp_nrw_new.geojson` (forest database)
 - `Coordinates_visit_residence_NRW_forest_march26.csv` (respondent data)
